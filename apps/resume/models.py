@@ -12,9 +12,7 @@ class Resume(models.Model):
 
     def __unicode__(self):
         return "{}: {} at {} ({})".format(self.user.username,
-                                          self.title,
-                                          self.company,
-                                          self.start_date.isoformat())
+                                          self.title,)
 
 class ResumeItem(models.Model):
     """

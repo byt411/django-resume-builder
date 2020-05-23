@@ -2,21 +2,19 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect
 
-from .forms import ResumeItemForm
+from .forms import ResumeItemForm, ResumeForm
 from .models import ResumeItem, Resume
 
 
 @login_required
-def resume_view(request):
+def resume_view(request, resume_id):
     """
     Handle a request to view a user's resume.
     """
-    resume_items = ResumeItem.objects\
-        .filter(user=request.user)\
-        .order_by('-start_date')
-    print(resume_items)
+    resume = Resume.objects\
+             .get(id=resume_id)
     return render(request, 'resume/resume.html', {
-        'resume_items': resume_items
+        'resume': resume
     })
 
 
@@ -25,12 +23,32 @@ def resume_list_view(request):
     """
     Handle a request to a list of the user's resumes.
     """
-    resume_items = Resume.objects\
+    resumelist = Resume.objects\
         .filter(user=request.user)\
         .order_by('title')
     return render(request, 'resume/resumelist.html', {
-        'resume_items': resume_items
+        'resumelist': resumelist
     })
+
+
+@login_required
+def resume_create_view(request):
+    """
+    Handle a request to create a new resume item.
+    """
+    if request.method == 'POST':
+        form = ResumeForm(request.POST)
+        if form.is_valid():
+            new_resume = form.save(commit=False)
+            new_resume.user = request.user
+            new_resume.save()
+
+            return redirect(resume_view, new_resume.id)
+            
+    else:
+        form = ResumeItemForm()
+
+    return render(request, 'resume/resume_create.html', {'form': form})
 
 @login_required
 def resume_item_create_view(request):

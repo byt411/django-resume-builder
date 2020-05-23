@@ -52,23 +52,27 @@ Template for viewing a resume.
 
 {% block content %}
   <div class="container content-section resume-container">
-    <div class="header-center-container">
+    <div class="header-left-container">
       <div class="header-container">
-        <h1>{{ request.user.first_name }} {{ request.user.last_name }}</h1>
-        <h3>{{ request.user.email }}</h3>
+        <h1 style="text-align:left;">Resumes</h1>
       </div>
     </div>
 
-    {% for resume in resumelist %}
-      <section class="resume-item">
-        <h3>{{ resume_item.title }}</h3>
-        <h4>{{ resume_item.company }}</h4>
-        <h4>{{ resume_item.start_date | date:"M Y"}} - {% if resume_item.end_date %}{{ resume_item.end_date | date:"M Y"}}{% else %}Present{% endif %}</h4>
-        {% if resume_item.description %}<p>{{ resume_item.description }}</p>{% endif %}
-        <a class="btn btn-primary" href="/resume/item/edit/{{ resume_item.id }}/">Edit</a>
+          <section class="resume">
+<div class="container">
+    <table>
+<tbody>
+      {% for resume in resumelist %}
+<tr>
+<td>      <h4>{{ resume.title }}</h4></td>
+<td>      <h5>number items</h5></td>
+<td><a class="btn btn-primary" href="/resume/edit/{{ resume.id }}/">View</a></td>
+<td><a class="btn btn-primary" href="/resume/edit/{{ resume.id }}/">Rename</a></td>
+</tr>
+   {% endfor %}
+</tbody>
+</table>
       </section>
-    {% endfor %}
-
-    <a class="btn btn-success" href="/resume/item/create/">Add New Item</a>
+    <a class="btn btn-success" href="/resume/create/">Create New Resume</a>
   </div>
 {% endblock %}
