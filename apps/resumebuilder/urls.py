@@ -29,7 +29,7 @@ urlpatterns = [
 
     path(r'', RedirectView.as_view(pattern_name='resume')),
 
-    path(r'resume/', resume_views.resume_view, name='resume'),
+    path(r'resume/', resume_views.resume_list_view, name='resume'),
     path(
         r'resume/item/edit/<int:resume_item_id>/',
         resume_views.resume_item_edit_view,

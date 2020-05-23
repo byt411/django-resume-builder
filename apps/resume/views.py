@@ -3,7 +3,7 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 
 from .forms import ResumeItemForm
-from .models import ResumeItem
+from .models import ResumeItem, Resume
 
 
 @login_required
@@ -14,11 +14,23 @@ def resume_view(request):
     resume_items = ResumeItem.objects\
         .filter(user=request.user)\
         .order_by('-start_date')
-
+    print(resume_items)
     return render(request, 'resume/resume.html', {
         'resume_items': resume_items
     })
 
+
+@login_required
+def resume_list_view(request):
+    """
+    Handle a request to a list of the user's resumes.
+    """
+    resume_items = Resume.objects\
+        .filter(user=request.user)\
+        .order_by('title')
+    return render(request, 'resume/resumelist.html', {
+        'resume_items': resume_items
+    })
 
 @login_required
 def resume_item_create_view(request):
@@ -71,3 +83,6 @@ def resume_item_edit_view(request, resume_item_id):
     template_dict['form'] = form
 
     return render(request, 'resume/resume_item_edit.html', template_dict)
+
+
+

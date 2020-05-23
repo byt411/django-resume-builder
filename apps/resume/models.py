@@ -9,8 +9,6 @@ class Resume(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
 
     title = models.CharField(max_length=127)
-    heading = models.CharField(max_length=127)
-    email = models.CharField(max_length=127)
 
     def __unicode__(self):
         return "{}: {} at {} ({})".format(self.user.username,
