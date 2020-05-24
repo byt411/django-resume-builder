@@ -31,9 +31,14 @@ urlpatterns = [
 
     path(r'resume/', resume_views.resume_list_view, name='resume'),
     path(
-        r'resume/item/edit/<int:resume_item_id>/',
-        resume_views.resume_item_edit_view,
-        name='resume-item-edit'
+        r'resume/create/',
+        resume_views.resume_create_view,
+        name='resume-create'
+    ),
+    path(
+        r'resume/<int:resume_id>/rename',
+        resume_views.resume_rename_view,
+        name='resume-rename'
     ),
     path(
         r'resume/<int:resume_id>/',
@@ -45,19 +50,11 @@ urlpatterns = [
         resume_views.resume_item_create_view,
         name='resume-item-create'
     ),
-
     path(
-        r'resume/<int:resume_id>/rename',
-        resume_views.resume_rename_view,
-        name='resume-rename'
+        r'resume/item/edit/<int:resume_item_id>/',
+        resume_views.resume_item_edit_view,
+        name='resume-item-edit'
     ),
-
-    path(
-        r'resume/create/',
-        resume_views.resume_create_view,
-        name='resume-create'
-    ),
-
     path(r'user/', user_views.account_edit_view, name='account-edit'),
     path(
         r'create-account/',
