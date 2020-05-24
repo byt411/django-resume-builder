@@ -47,6 +47,12 @@ urlpatterns = [
     ),
 
     path(
+        r'resume/<int:resume_id>/edit',
+        resume_views.resume_edit_view,
+        name='resume-rename'
+    ),
+
+    path(
         r'resume/create/',
         resume_views.resume_create_view,
         name='resume-create'

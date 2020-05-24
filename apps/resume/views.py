@@ -14,7 +14,6 @@ def resume_view(request, resume_id):
     resume = Resume.objects.get(id=resume_id)
     resume_items = ResumeItem.objects.filter(
         resume=resume).order_by('-start_date')
-    print(resume_items)
     return render(request, 'resume/resume.html', {
         'resume': resume,
         'resume_items': resume_items
@@ -47,11 +46,44 @@ def resume_create_view(request):
             new_resume.save()
 
             return redirect(resume_view, new_resume.id)
-            
+
     else:
-        form = ResumeItemForm()
+        form = ResumeForm()
 
     return render(request, 'resume/resume_create.html', {'form': form})
+
+
+@login_required
+def resume_edit_view(request, resume_id):
+    """
+    Handle a request to edit a resume item.
+
+    :param resume_item_id: The database ID of the ResumeItem to edit.
+    """
+    try:
+        resume_item = Resume.objects\
+            .get(id=resume_id)
+    except ResumeItem.DoesNotExist:
+        raise Http404
+
+    template_dict = {}
+
+    if request.method == 'POST':
+        if 'delete' in request.POST:
+            resume_item.delete()
+            return redirect(resume_list_view)
+
+        form = ResumeForm(request.POST, instance=resume_item)
+        if form.is_valid():
+            form.save()
+            form = ResumeForm(instance=resume_item)
+            template_dict['message'] = 'Resume updated'
+    else:
+        form = ResumeForm(instance=resume_item)
+
+    template_dict['form'] = form
+
+    return render(request, 'resume/resume_edit.html', template_dict)
 
 @login_required
 def resume_item_create_view(request, resume_id):
@@ -105,6 +137,4 @@ def resume_item_edit_view(request, resume_item_id):
     template_dict['form'] = form
 
     return render(request, 'resume/resume_item_edit.html', template_dict)
-
-
 

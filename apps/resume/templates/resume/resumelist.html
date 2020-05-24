@@ -1,78 +1,84 @@
-{% extends "base_logged_in.html" %}
+{% extends "base_logged_in.html" %} {% comment %} Template for viewing a resume.
+{% endcomment %} {% block styles %} {{ block.super }}
 
-{% comment %}
-Template for viewing a resume.
-{% endcomment %}
+<style>
+  div.resume-container {
+    margin: 24px auto 0;
+    max-width: 800px;
+  }
 
-{% block styles %}
-  {{ block.super }}
+  div.header-center-container {
+    text-align: center;
 
-  <style>
-    div.resume-container {
-      margin: 24px auto 0;
-      max-width: 800px;
-    }
+    margin-top: 12px;
+  }
 
-    div.header-center-container {
-      text-align: center;
+  div.header-container {
+    text-align: left;
 
-      margin-top: 12px;
-    }
+    display: inline-block;
+  }
 
-    div.header-container {
-      text-align: left;
+  div.header-container > h3 {
+    margin-top: 0;
 
-      display: inline-block;
-    }
+    color: #666666;
+  }
 
-    div.header-container > h3 {
-      margin-top: 0;
+  section.resume-item {
+    margin-top: 36px;
 
-      color: #666666;
-    }
+    position: relative;
+  }
 
-    section.resume-item {
-      margin-top: 36px;
+  section.resume-item > a.btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
 
-      position: relative;
-    }
-
-    section.resume-item > a.btn {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-
-    div.resume-container > a.btn {
-      margin-top: 24px;
-      margin-bottom: 24px;
-    }
-  </style>
-{% endblock %}
-
-{% block content %}
-  <div class="container content-section resume-container">
-    <div class="header-left-container">
-      <div class="header-container">
-        <h1 style="text-align:left;">Resumes</h1>
-      </div>
+  div.resume-container > a.btn {
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="container content-section resume-container">
+  <div class="header-left-container">
+    <div class="header-container">
+      <h1 style="text-align: left;">Resumes</h1>
     </div>
-
-          <section class="resume">
-<div class="container">
-    <table>
-<tbody>
-      {% for resume in resumelist %}
-<tr>
-<td>      <h4>{{ resume.title }}</h4></td>
-<td>      <h5>number items</h5></td>
-<td><a class="btn btn-primary" href="/resume/{{ resume.id }}/">View</a></td>
-<td><a class="btn btn-primary" href="/resume/edit/{{ resume.id }}/">Rename</a></td>
-</tr>
-   {% endfor %}
-</tbody>
-</table>
-      </section>
-    <a class="btn btn-success" href="/resume/create/">Create New Resume</a>
   </div>
-{% endblock %}
+
+  <section class="resume">
+    <div class="container">
+      <table>
+        <tbody>
+          {% for resume in resumelist %}
+          <tr>
+            <td><h4>{{ resume.title }}</h4></td>
+            {% if resume.resumeitem_set.count == 1 %}
+            <td><h5>{{ resume.resumeitem_set.count }} item</h5></td>
+            {% else %}
+            <td><h5>{{ resume.resumeitem_set.count }} items</h5></td>
+            {% endif %}
+            <td>
+              <a class="btn btn-primary" href="/resume/{{ resume.id }}/"
+                >View</a
+              >
+            </td>
+            <td>
+              <a class="btn btn-primary" href="/resume/{{ resume.id }}/edit"
+                >Rename</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <a class="btn btn-success" href="/resume/create/">Create New Resume</a>
+    </div>
+  </section>
+  {% endblock %}
+</div>
