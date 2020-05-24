@@ -67,8 +67,12 @@ Template for viewing a resume.
     <h3>{{ resume_item.title }}</h3>
     <h4>{{ resume_item.company }}</h4>
     <h4>
-      {{ resume_item.start_date | date:"M Y"}} - {% if resume_item.end_date %}{{
-      resume_item.end_date | date:"M Y"}}{% else %}Present{% endif %}
+      {{ resume_item.start_date | date:"M Y"}} - 
+      {% if resume_item.end_date %}
+      {{ resume_item.end_date | date:"M Y"}}
+      {% else %}
+      Present
+      {% endif %}
     </h4>
     {% if resume_item.description %}
     <p>{{ resume_item.description }}</p>

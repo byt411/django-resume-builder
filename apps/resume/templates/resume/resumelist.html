@@ -51,9 +51,11 @@ Template for viewing a list of the user's saved resumes.
         <div class="col-3"><h4>{{ resume.name }}</h4></div>
         <div class="col-2">
           <h5>
-            {% if resume.resumeitem_set.count == 1 %} {{
-            resume.resumeitem_set.count }} Item {% else %} {{
-            resume.resumeitem_set.count }} Items {% endif %}
+            {% if resume.resumeitem_set.count == 1 %}
+            {{ resume.resumeitem_set.count }} Item 
+            {% else %} 
+            {{ resume.resumeitem_set.count }} Items 
+            {% endif %}
           </h5>
         </div>
         <div class="col-3">

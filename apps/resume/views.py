@@ -13,7 +13,7 @@ def resume_list_view(request):
     """
     resumelist = Resume.objects\
         .filter(user=request.user)\
-        .order_by('id')
+        .order_by('name')
     return render(request, 'resume/resumelist.html', {
         'resumelist': resumelist
     })
