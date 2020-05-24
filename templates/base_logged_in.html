@@ -25,20 +25,20 @@ the Django admin)
 
 {% block body %}
   <div class="container">
-    <nav class="navbar-default">
+    <nav class="navbar-default navbar-expand-lg">
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="/">Resume Builder</a>
         </div>
 
         <ul class="nav navbar-nav">
-          <li role="presentation" {% if "/resume/" in request.path %}class="active"{% endif %}>
+          <li role="presentation" {% if "/resume/" in request.path %}class="nav-item active" {% else %}class="nav-item"{% endif %}>
             <a href="/resume/">Resume</a>
           </li>
-          <li role="presentation" {% if "/user/" in request.path %}class="active"{% endif %}>
+          <li role="presentation" {% if "/user/" in request.path %}class="nav-item active"{% else %}class="nav-item"{% endif %}>
             <a href="/user/">User account</a>
           </li>
-        </ul>
+        </ul> 
 
         <div class="navbar-right">
           <a class="btn btn-default navbar-btn" id="logout-button" href="/logout/">
