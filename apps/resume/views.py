@@ -55,11 +55,11 @@ def resume_create_view(request):
 
 
 @login_required
-def resume_manage_view(request, resume_id):
+def resume_rename_view(request, resume_id):
     """
-    Handle a request to edit a resume.
+    Handle a request to rename a resume.
 
-    :param resume_item_id: The database ID of the Resume to edit.
+    :param resume_item_id: The database ID of the Resume to rename.
     """
     try:
         resume = Resume.objects\
@@ -84,7 +84,7 @@ def resume_manage_view(request, resume_id):
         form = ResumeForm(instance=resume)
 
     template_dict['form'] = form
-    return render(request, 'resume/resume_manage.html', template_dict)
+    return render(request, 'resume/resume_rename.html', template_dict)
 
 
 @login_required

@@ -47,9 +47,9 @@ urlpatterns = [
     ),
 
     path(
-        r'resume/<int:resume_id>/manage',
-        resume_views.resume_manage_view,
-        name='resume-manage'
+        r'resume/<int:resume_id>/rename',
+        resume_views.resume_rename_view,
+        name='resume-rename'
     ),
 
     path(
