@@ -5,12 +5,12 @@ from .models import ResumeItem, Resume
 
 class ResumeForm(forms.ModelForm):
     """
-    A form for creating and editing resume items. Note that 'user' is not
+    A form for creating and editing resumes. Note that 'user' is not
     included: it is always set to the requesting user.
     """
     class Meta:
         model = Resume
-        fields = ['title']
+        fields = ['name']
 
 class ResumeItemForm(forms.ModelForm):
     """

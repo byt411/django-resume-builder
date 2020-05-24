@@ -8,11 +8,11 @@ class Resume(models.Model):
 
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
 
-    title = models.CharField(max_length=127)
+    name = models.CharField(max_length=127)
 
     def __unicode__(self):
         return "{}: {} at {} ({})".format(self.user.username,
-                                          self.title,)
+                                          self.name,)
 
 class ResumeItem(models.Model):
     """

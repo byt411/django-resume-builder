@@ -24,25 +24,15 @@
 
     color: #666666;
   }
-
-  section.resume-item {
-    margin-top: 36px;
-
-    position: relative;
-  }
-
-  section.resume-item > a.btn {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-
-  div.resume-container > a.btn {
+  
+  #create {
     margin-top: 24px;
     margin-bottom: 24px;
   }
 </style>
+
 {% endblock %} {% block content %}
+
 <div class="container content-section resume-container">
   <div class="header-left-container">
     <div class="header-container">
@@ -51,34 +41,30 @@
   </div>
 
   <section class="resume">
-    <div class="container">
-      <table>
-        <tbody>
-          {% for resume in resumelist %}
-          <tr>
-            <td><h4>{{ resume.title }}</h4></td>
-            {% if resume.resumeitem_set.count == 1 %}
-            <td><h5>{{ resume.resumeitem_set.count }} item</h5></td>
-            {% else %}
-            <td><h5>{{ resume.resumeitem_set.count }} items</h5></td>
-            {% endif %}
-            <td>
-              <a class="btn btn-primary" href="/resume/{{ resume.id }}/"
-                >View</a
-              >
-            </td>
-            <td>
-              <a class="btn btn-primary" href="/resume/{{ resume.id }}/edit"
-                >Rename</a
-              >
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="container-fluid">
+      {% for resume in resumelist %}
+      <div class="row">
+        <div class="col-3"><h4>{{ resume.name }}</h4></div>
+        <div class="col-2"><h5>
+        {% if resume.resumeitem_set.count == 1 %}
+        {{ resume.resumeitem_set.count }} Item
+        {% else %}
+        {{ resume.resumeitem_set.count }} Items
+        {% endif %}</h5>
 
-      <a class="btn btn-success" href="/resume/create/">Create New Resume</a>
+        </div>
+        <div class="col-3">
+          <a class="btn btn-primary" href="/resume/{{ resume.id }}/">View</a>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <a class="btn btn-default" href="/resume/{{ resume.id }}/manage"
+            >Manage</a
+          >
+        </div>
+<div class="col-3"></div>
+      </div>
+      {% endfor %}
     </div>
+    <a id="create" class="btn btn-success" href="/resume/create/">Create New Resume</a>
   </section>
   {% endblock %}
 </div>

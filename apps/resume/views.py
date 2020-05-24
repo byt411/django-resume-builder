@@ -7,9 +7,23 @@ from .models import ResumeItem, Resume
 
 
 @login_required
+def resume_list_view(request):
+    """
+    Handle a request to display a list of the user's resumes.
+    """
+    resumelist = Resume.objects\
+        .filter(user=request.user)\
+        .order_by('id')
+    return render(request, 'resume/resumelist.html', {
+        'resumelist': resumelist
+    })
+
+
+@login_required
 def resume_view(request, resume_id):
     """
-    Handle a request to view a user's resume.
+    Handle a request to view a resume of a user.
+    :param resume_id: id of the resume to be displayed.
     """
     resume = Resume.objects.get(id=resume_id)
     resume_items = ResumeItem.objects.filter(
@@ -21,22 +35,9 @@ def resume_view(request, resume_id):
 
 
 @login_required
-def resume_list_view(request):
-    """
-    Handle a request to a list of the user's resumes.
-    """
-    resumelist = Resume.objects\
-        .filter(user=request.user)\
-        .order_by('title')
-    return render(request, 'resume/resumelist.html', {
-        'resumelist': resumelist
-    })
-
-
-@login_required
 def resume_create_view(request):
     """
-    Handle a request to create a new resume item.
+    Handle a request to create a new resume.
     """
     if request.method == 'POST':
         form = ResumeForm(request.POST)
@@ -54,36 +55,37 @@ def resume_create_view(request):
 
 
 @login_required
-def resume_edit_view(request, resume_id):
+def resume_manage_view(request, resume_id):
     """
-    Handle a request to edit a resume item.
+    Handle a request to edit a resume.
 
-    :param resume_item_id: The database ID of the ResumeItem to edit.
+    :param resume_item_id: The database ID of the Resume to edit.
     """
     try:
-        resume_item = Resume.objects\
+        resume = Resume.objects\
+            .filter(user=request.user)\
             .get(id=resume_id)
-    except ResumeItem.DoesNotExist:
+    except Resume.DoesNotExist:
         raise Http404
 
     template_dict = {}
 
     if request.method == 'POST':
         if 'delete' in request.POST:
-            resume_item.delete()
+            resume.delete()
             return redirect(resume_list_view)
 
-        form = ResumeForm(request.POST, instance=resume_item)
+        form = ResumeForm(request.POST, instance=resume)
         if form.is_valid():
             form.save()
-            form = ResumeForm(instance=resume_item)
+            form = ResumeForm(instance=resume)
             template_dict['message'] = 'Resume updated'
     else:
-        form = ResumeForm(instance=resume_item)
+        form = ResumeForm(instance=resume)
 
     template_dict['form'] = form
+    return render(request, 'resume/resume_manage.html', template_dict)
 
-    return render(request, 'resume/resume_edit.html', template_dict)
 
 @login_required
 def resume_item_create_view(request, resume_id):
@@ -135,6 +137,4 @@ def resume_item_edit_view(request, resume_item_id):
         form = ResumeItemForm(instance=resume_item)
 
     template_dict['form'] = form
-
     return render(request, 'resume/resume_item_edit.html', template_dict)
-
