@@ -11,10 +11,13 @@ def resume_view(request, resume_id):
     """
     Handle a request to view a user's resume.
     """
-    resume = Resume.objects\
-             .get(id=resume_id)
+    resume = Resume.objects.get(id=resume_id)
+    resume_items = ResumeItem.objects.filter(
+        resume=resume).order_by('-start_date')
+    print(resume_items)
     return render(request, 'resume/resume.html', {
-        'resume': resume
+        'resume': resume,
+        'resume_items': resume_items
     })
 
 
@@ -51,7 +54,7 @@ def resume_create_view(request):
     return render(request, 'resume/resume_create.html', {'form': form})
 
 @login_required
-def resume_item_create_view(request):
+def resume_item_create_view(request, resume_id):
     """
     Handle a request to create a new resume item.
     """
@@ -60,6 +63,7 @@ def resume_item_create_view(request):
         if form.is_valid():
             new_resume_item = form.save(commit=False)
             new_resume_item.user = request.user
+            new_resume_item.resume = resume = Resume.objects.get(id=resume_id)
             new_resume_item.save()
 
             return redirect(resume_item_edit_view, new_resume_item.id)

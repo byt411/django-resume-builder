@@ -41,7 +41,7 @@ urlpatterns = [
         name='resume-view'
     ),
     path(
-        r'resume/item/create/',
+        r'resume/<int:resume_id>/add',
         resume_views.resume_item_create_view,
         name='resume-item-create'
     ),
