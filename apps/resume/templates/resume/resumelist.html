@@ -1,5 +1,9 @@
-{% extends "base_logged_in.html" %} {% comment %} Template for viewing a resume.
-{% endcomment %} {% block styles %} {{ block.super }}
+{% extends "base_logged_in.html" %} 
+{% comment %} 
+Template for viewing a list of the user's saved resumes.
+{% endcomment %} 
+{% block styles %} 
+{{ block.super }}
 
 <style>
   div.resume-container {
@@ -24,7 +28,7 @@
 
     color: #666666;
   }
-  
+
   #create {
     margin-top: 24px;
     margin-bottom: 24px;
@@ -45,13 +49,12 @@
       {% for resume in resumelist %}
       <div class="row">
         <div class="col-3"><h4>{{ resume.name }}</h4></div>
-        <div class="col-2"><h5>
-        {% if resume.resumeitem_set.count == 1 %}
-        {{ resume.resumeitem_set.count }} Item
-        {% else %}
-        {{ resume.resumeitem_set.count }} Items
-        {% endif %}</h5>
-
+        <div class="col-2">
+          <h5>
+            {% if resume.resumeitem_set.count == 1 %} {{
+            resume.resumeitem_set.count }} Item {% else %} {{
+            resume.resumeitem_set.count }} Items {% endif %}
+          </h5>
         </div>
         <div class="col-3">
           <a class="btn btn-primary" href="/resume/{{ resume.id }}/">View</a>
@@ -60,11 +63,13 @@
             >Manage</a
           >
         </div>
-<div class="col-3"></div>
+        <div class="col-3"></div>
       </div>
       {% endfor %}
     </div>
-    <a id="create" class="btn btn-success" href="/resume/create/">Create New Resume</a>
+    <a id="create" class="btn btn-success" href="/resume/create/"
+      >Create New Resume</a
+    >
   </section>
   {% endblock %}
 </div>

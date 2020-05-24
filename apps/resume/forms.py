@@ -12,6 +12,7 @@ class ResumeForm(forms.ModelForm):
         model = Resume
         fields = ['name']
 
+
 class ResumeItemForm(forms.ModelForm):
     """
     A form for creating and editing resume items. Note that 'user' is not
@@ -20,4 +21,3 @@ class ResumeItemForm(forms.ModelForm):
     class Meta:
         model = ResumeItem
         fields = ['title', 'company', 'start_date', 'end_date', 'description']
-
